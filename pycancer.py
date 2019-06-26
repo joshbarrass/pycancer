@@ -2,6 +2,7 @@
 
 import math
 import time
+import os
 
 import pygame
 from pygame.locals import *
@@ -26,12 +27,24 @@ class App():
             pygame.display.set_icon(self.icon)
         self.display = pygame.display.set_mode(self.size, pygame.HWSURFACE | DOUBLEBUF)
 
+        # Load fonts
         self.small_font = pygame.font.SysFont("sans-serif",15)
         self.medium_font = pygame.font.SysFont("sans-serif",22)
 
         # Open the fidget spinner sprite
         self.spinner = Spinner(SPRITE_PATH, (self.size[0]//2,self.size[1]//2))
         self.spinner.set_centre_pos((self.size[0]/2,self.size[1]/2))
+
+        # Attempt to load music
+        self.music = None
+        music_files = [file for file in os.listdir(MUSIC_PATH) if file[-4:].lower() == ".ogg"]
+        if len(music_files) >= 1:
+            pygame.mixer.init()
+            self.music = music_files[0]
+            pygame.mixer.music.load(os.path.join(MUSIC_PATH,self.music))
+            print("Loaded music: "+self.music)
+        else:
+            print("No music available to load :(")
 
         self.reset()
 
@@ -58,6 +71,9 @@ class App():
 
         self.pressed = False
 
+        if self.music is not None:
+            pygame.mixer.music.stop()
+
     def __loop__(self):
         """Commands processed every frame"""
         ## speed decreases by 12.5 every second
@@ -78,7 +94,15 @@ class App():
             self.time_spent_in_90s = time.time() - self.time_start
             if self.time_spent_in_90s > self.highest_time_spent_in_90s:
                 self.highest_time_spent_in_90s = self.time_spent_in_90s
+
+            if self.music is not None:
+                pygame.mixer.music.set_volume(1)
+                if not pygame.mixer.music.get_busy():
+                    pygame.mixer.music.play(0)
         else:
+            if self.music is not None:
+                if pygame.mixer.music.get_busy():
+                    pygame.mixer.music.set_volume(0)
             self.background = 0
             self.time_spent_in_90s = 0
             self.time_start = None

@@ -25,4 +25,4 @@ BACKGROUND_COLOURS = [
     COLOUR_YELLOW,
     ]
 SPRITE_PATH = os.path.join(GAMEDIR, "assets", "spinner_new.tif")
-
+MUSIC_PATH = os.path.join(GAMEDIR, "assets", "music")

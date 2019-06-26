@@ -127,12 +127,6 @@ dmypy.json
 .pyre/
 
 # End of https://www.gitignore.io/api/python
-
-# old/unneeded spinner sprites
-assets/spinner.png
-assets/spinner.tif
-assets/spinner_new.png
-
 # Created by https://www.gitignore.io/api/emacs
 # Edit at https://www.gitignore.io/?templates=emacs
 
@@ -188,3 +182,11 @@ flycheck_*.el
 
 
 # End of https://www.gitignore.io/api/emacs
+
+# old/unneeded spinner sprites
+assets/spinner.png
+assets/spinner.tif
+assets/spinner_new.png
+
+# music files
+assets/music/*.ogg
