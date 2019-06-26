@@ -1,6 +1,7 @@
 #!/usr/bin/env python3.6
 
 import math
+import time
 
 import pygame
 from pygame.locals import *
@@ -43,8 +44,17 @@ class App():
         # displayed as acceleration in-game as in the original
         self.speed = 0
         self.highest_speed = 0
+
+        # time in the 90s tracking
+        self.time_start = None
+        self.time_spent_in_90s = 0
+        self.highest_time_spent_in_90s = 0
+
+        # reset spinner position
         self.spinner.angle = 0
         self.spinner.rotate(0)
+
+        self.background = 0
 
         self.pressed = False
 
@@ -60,6 +70,18 @@ class App():
 
         if self.speed > self.highest_speed:
             self.highest_speed = self.speed
+
+        if self.speed >= 90:
+            self.background = (self.background+1)%len(BACKGROUND_COLOURS)
+            if self.time_start is None:
+                self.time_start = time.time()
+            self.time_spent_in_90s = time.time() - self.time_start
+            if self.time_spent_in_90s > self.highest_time_spent_in_90s:
+                self.highest_time_spent_in_90s = self.time_spent_in_90s
+        else:
+            self.background = 0
+            self.time_spent_in_90s = 0
+            self.time_start = None
             
         ## Rotate the spinner according to the angular speed
         self.spinner.rotate(-self.speed)
@@ -86,18 +108,30 @@ class App():
     def __render__(self):
         """Rendering"""
         # Clear background
-        self.display.fill(BACKGROUND_COLOUR)
+        self.display.fill(BACKGROUND_COLOURS[self.background])
         self.spinner.draw(self.display)
 
         # draw texts
         fps_text = self.small_font.render("FPS: "+str(round(self.clock.get_fps(),1)), 1, COLOUR_BLACK)
         self.display.blit(fps_text, (0,0))
+        
         speed_text = self.medium_font.render("Acceleration: "+str(round(self.speed,1)), 1, COLOUR_BLACK)
         self.display.blit(speed_text, (0,20))
+        
         highest_text = self.medium_font.render("Highest: "+str(round(self.highest_speed,1)), 1, COLOUR_BLACK)
         highest_text_rect = highest_text.get_rect()
-        highest_text_rect.right = self.size[0]-3
+        highest_text_rect.topright = (self.size[0]-3, 20)
         self.display.blit(highest_text, highest_text_rect)
+
+        nineties_text = self.medium_font.render("Time Spent Running in the 90s: "+str(round(self.time_spent_in_90s,1))+"s", 1, COLOUR_BLACK)
+        nineties_text_rect = nineties_text.get_rect()
+        nineties_text_rect.bottomleft = (3, self.size[1])
+        self.display.blit(nineties_text, nineties_text_rect)
+
+        highest_nineties_text = self.medium_font.render("Longest Time Spent Running in the 90s: "+str(round(self.highest_time_spent_in_90s,1))+"s", 1, COLOUR_BLACK)
+        highest_nineties_text_rect = highest_nineties_text.get_rect()
+        highest_nineties_text_rect.bottomright = (self.size[0]-3, self.size[1])
+        self.display.blit(highest_nineties_text, highest_nineties_text_rect)
         
         pygame.display.flip()
 
