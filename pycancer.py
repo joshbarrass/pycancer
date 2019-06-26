@@ -1,5 +1,7 @@
 #!/usr/bin/env python3.6
 
+import math
+
 import pygame
 from pygame.locals import *
 
@@ -49,7 +51,10 @@ class App():
     def __loop__(self):
         """Commands processed every frame"""
         ## speed decreases by 12.5 every second
-        self.speed -= 12.5*(self.clock.get_time()/1000)
+        #self.speed -= 12.5*(self.clock.get_time()/1000)
+        ## exponential speed decrease makes it slightly easier the faster you go
+        ## this is to recreate the slight lag in scratch as the spinner got faster
+        self.speed -= (10 + 2.5*math.exp(-self.speed/200))*(self.clock.get_time()/1000)
         if self.speed < 0:
             self.speed = 0
 
