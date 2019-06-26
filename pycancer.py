@@ -30,15 +30,32 @@ class App():
         self.spinner = Spinner(SPRITE_PATH, (self.size[0]//2,self.size[1]//2))
         self.spinner.set_centre_pos((self.size[0]/2,self.size[1]/2))
 
-        # displayed as acceleration in-game as in the original
-        self.speed = 0
+        self.reset()
+
+        self.difficulty = 1
+        self.legendary = False ## will be interpreted as int
 
         return True
 
+    def reset(self):
+        # displayed as acceleration in-game as in the original
+        self.speed = 0
+        self.highest_speed = 0
+        self.spinner.angle = 0
+        self.spinner.rotate(0)
+
+        self.pressed = False
+
     def __loop__(self):
         """Commands processed every frame"""
-        self.speed += 5*self.clock.get_time()/1000
+        ## speed decreases by 12.5 every second
+        self.speed -= 12.5*(self.clock.get_time()/1000)
+        if self.speed < 0:
+            self.speed = 0
 
+        if self.speed > self.highest_speed:
+            self.highest_speed = self.speed
+            
         ## Rotate the spinner according to the angular speed
         self.spinner.rotate(-self.speed)
         ## set the hue shift as it would in scratch
@@ -48,6 +65,18 @@ class App():
         """Event Handling"""
         if event.type == pygame.QUIT:
             self.running = False
+
+        ## Handle key press
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_s:
+            if not self.pressed:
+                self.pressed = True
+                self.speed += (5- self.speed/(39 - self.legendary*10 - self.difficulty))
+        if event.type == pygame.KEYUP and event.key == pygame.K_s:
+            self.pressed = False
+
+        ## Enter to reset
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
+            self.reset()
 
     def __render__(self):
         """Rendering"""
@@ -60,6 +89,10 @@ class App():
         self.display.blit(fps_text, (0,0))
         speed_text = self.medium_font.render("Acceleration: "+str(round(self.speed,1)), 1, COLOUR_BLACK)
         self.display.blit(speed_text, (0,20))
+        highest_text = self.medium_font.render("Highest: "+str(round(self.highest_speed,1)), 1, COLOUR_BLACK)
+        highest_text_rect = highest_text.get_rect()
+        highest_text_rect.right = self.size[0]-3
+        self.display.blit(highest_text, highest_text_rect)
         
         pygame.display.flip()
 
