@@ -4,6 +4,14 @@ A rewrite of a fidget spinner Scratch game using Pygame
 
 ----------------------------------------------------
 
+# Warning #
+
+**THIS GAME USES RAPIDLY FLASHING IMAGES!**
+
+If this is something you are sensitive to, you can disable it by setting `FLASHING_BACKGROUND=False` in constants.py
+
+I take no responsibility for any damage this game may cause.
+
 # Credit #
 
 * Code: Joshua Barrass
@@ -16,7 +24,23 @@ A rewrite of a fidget spinner Scratch game using Pygame
 * PIL/Pillow
 * colorsys
 
-**This game is currently still a proof of concept!**
+# Playing #
+
+First install the requirements:
+```pip install -r requirements.txt```
+
+Then launch the game:
+```./pycancer.py```
+
+## Controls ##
+
+Mash S to spin. Press Enter/Return to reset.
+
+## Music ##
+
+The game can be played with music, which will automatically be played when you reach a speed above 90. Simply put a .ogg file in the assets/music folder.
+
+We recommend Max Coveri's "Running in the 90s"!
 
 # Background #
 

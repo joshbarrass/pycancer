@@ -17,12 +17,17 @@ COLOUR_BLUE = (0,49,206)
 COLOUR_YELLOW = (255,255,0)
 
 # Game Settings
-BACKGROUND_COLOURS = [
-    COLOUR_WHITE,
-    COLOUR_RED,
-    COLOUR_GREEN,
-    COLOUR_BLUE,
-    COLOUR_YELLOW,
-    ]
+FLASHING_BACKGROUND = True
+if FLASHING_BACKGROUND:
+    BACKGROUND_COLOURS = [
+        COLOUR_WHITE,
+        COLOUR_RED,
+        COLOUR_GREEN,
+        COLOUR_BLUE,
+        COLOUR_YELLOW,
+        ]
+else:
+    BACKGROUND_COLOURS = [COLOUR_WHITE]
+
 SPRITE_PATH = os.path.join(GAMEDIR, "assets", "spinner_new.tif")
 MUSIC_PATH = os.path.join(GAMEDIR, "assets", "music")
