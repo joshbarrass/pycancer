@@ -6,7 +6,7 @@ GAMEDIR = os.path.dirname(__file__)
 # App Settings
 WINDOW_NAME = "Cancer"
 WINDOW_SIZE = (750,750)
-FPS_LIMIT = 30
+FPS_LIMIT = 60
 
 # Colours
 COLOUR_WHITE = (255,255,255)
