@@ -49,7 +49,7 @@ class Spinner(sprite.Sprite):
             if len(rgb) == 3:
                 palette.append(rgb + [255])
                 rgb = []
-        print (palette[0])
+##        print (palette[0])
         self.original_image.set_palette(palette)
         self.original_image.set_colorkey([255,255,255])
         
