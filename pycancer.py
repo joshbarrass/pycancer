@@ -32,7 +32,9 @@ class App():
         self.medium_font = pygame.font.SysFont("sans-serif",22)
 
         # Open the fidget spinner sprite
-        self.spinner = Spinner(SPRITE_PATH, (self.size[0]//2,self.size[1]//2))
+        self.sprite_num = 0
+        self.sprite_files = [os.path.join(SPRITE_PATH,file) for file in os.listdir(SPRITE_PATH) if file[-4:].lower() == ".tif"]
+        self.spinner = Spinner(self.sprite_files[0], (self.size[0]//2,self.size[1]//2))
         self.spinner.set_centre_pos((self.size[0]/2,self.size[1]/2))
 
         # Attempt to load music
@@ -119,15 +121,21 @@ class App():
 
         ## Handle key press
         if event.type == pygame.KEYDOWN and event.key == pygame.K_s:
-            if not self.pressed:
-                self.pressed = True
-                self.speed += (5- self.speed/(39 - self.legendary*10 - self.difficulty))
-        if event.type == pygame.KEYUP and event.key == pygame.K_s:
-            self.pressed = False
+            #if not self.pressed:
+##            self.pressed = True
+            self.speed += (5- self.speed/(39 - self.legendary*10 - self.difficulty))
+##        if event.type == pygame.KEYUP and event.key == pygame.K_s:
+##            self.pressed = False
 
         ## Enter to reset
         if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
             self.reset()
+
+        ## Space to use next sprite
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+            self.sprite_num = (self.sprite_num+1)%len(self.sprite_files)
+            self.spinner.load_image(self.sprite_files[self.sprite_num])
+            self.spinner.set_centre_pos((self.size[0]/2,self.size[1]/2))
 
     def __render__(self):
         """Rendering"""

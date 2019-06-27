@@ -24,9 +24,18 @@ class Spinner(sprite.Sprite):
     def __init__(self, imagepath, size=None):
         super().__init__()
 
-        if not image.get_extended():
-            raise SpriteError("Fatal: extended image support not available. Canot open sprite.")
+##        if not image.get_extended():
+##            raise SpriteError("Fatal: extended image support not available. Canot open sprite.")
+        self.size = size
+        self.load_image(imagepath)
+        
+        # how much the spinner has been rotated by
+        self.angle = 0
+        self.hueshift = 0
 
+        self.times_taken = []
+
+    def load_image(self, imagepath):
         # get original image as 8-bit since LUT operations are faster
         # than bitmap operations
         im = Image.open(imagepath)
@@ -46,15 +55,10 @@ class Spinner(sprite.Sprite):
         
         self.original_rect = self.original_image.get_rect()
 
-        self.base_image = transform.scale(self.original_image, size)
+        self.base_image = transform.scale(self.original_image, self.size)
         self.image = self.base_image
         self.rect = self.original_rect
 
-        # how much the spinner has been rotated by
-        self.angle = 0
-        self.hueshift = 0
-
-        self.times_taken = []
 
     def set_centre_pos(self, pos):
         self.original_rect.center = (pos[0], pos[1])

@@ -29,5 +29,5 @@ if FLASHING_BACKGROUND:
 else:
     BACKGROUND_COLOURS = [COLOUR_WHITE]
 
-SPRITE_PATH = os.path.join(GAMEDIR, "assets", "spinner_new.tif")
+SPRITE_PATH = os.path.join(GAMEDIR, "assets", "sprites")
 MUSIC_PATH = os.path.join(GAMEDIR, "assets", "music")
