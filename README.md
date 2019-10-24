@@ -14,8 +14,8 @@ I take no responsibility for any damage this game may cause.
 
 # Credit #
 
-* Code: Joshua Barrass
-* Sprites: Louie Woods
+* Scratch/Python Code: Joshua Barrass
+* Concept & Sprites: Louie Woods
 
 ## Libraries ##
 
