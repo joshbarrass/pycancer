@@ -33,7 +33,7 @@ class App():
 
         # Open the fidget spinner sprite
         self.sprite_num = 0
-        self.sprite_files = [os.path.join(SPRITE_PATH,file) for file in os.listdir(SPRITE_PATH) if file[-4:].lower() == ".tif"]
+        self.sprite_files = sorted([os.path.join(SPRITE_PATH,file) for file in os.listdir(SPRITE_PATH) if file[-4:].lower() == ".tif"])
         self.spinner = Spinner(self.sprite_files[0], (self.size[0]//2,self.size[1]//2))
         self.spinner.set_centre_pos((self.size[0]/2,self.size[1]/2))
 
